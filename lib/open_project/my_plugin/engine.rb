@@ -37,22 +37,10 @@ module OpenProject::MyPlugin
                    permissible_on: [:project]
       end
 
-      menu :project_menu,
-           :kittens,
-           { controller: '/kittens', action: 'index' },
-           after: :overview,
-           param: :project_id,
-           caption: "Kittens",
-           icon: :squirrel,
-           html: { id: "kittens-menu-item" },
-           if: ->(project) { true }
-
       menu :top_menu,
-           :angular_kittens,
-           '/angular_kittens',
-           after: :kittens,
-           param: :project_id,
-           caption: "Kittens Frontend"
+           :my_plugin,
+           { controller: 'my_plugin', action: 'index'},
+           caption: "My Plugin Frontend"
     end
 
     config.to_prepare do
