@@ -43,5 +43,9 @@ module OpenProject::MyPlugin
       end
 
     end
+
+    config.to_prepare do
+      WorkPackagesController.send(:include, WorkPackagesControllerPatch)
+    end
   end
 end
