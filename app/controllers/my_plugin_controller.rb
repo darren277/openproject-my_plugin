@@ -4,6 +4,7 @@ class MyPluginController < ApplicationController
   #before_action :find_project_by_project_id
   #before_action :authorize
   
+  no_authorization_required!  
   layout 'angular'
 
   def index
