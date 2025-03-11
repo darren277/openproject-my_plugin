@@ -1,5 +1,5 @@
 class KpiDashboardController < ApplicationController
-  layout 'angular'
+  layout 'base'
   
   def index
     # This will render your Angular app
