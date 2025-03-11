@@ -1,36 +1,38 @@
 class MyPluginController < ApplicationController
   # Check for the permissions of the user
   # as defined in the engine.rb permissions block
-  before_action :find_project_by_project_id
-  before_action :authorize
+  #before_action :find_project_by_project_id
+  #before_action :authorize
+  
+  layout 'angular'
 
   def index
-    @kittens = Kitten.all
-
-    render layout: true
+    #@kittens = Kitten.all
+    #render layout: true
+    render plain: "My Plugin is working!"
   end
 
-  def new
-    @kitten = Kitten.new
-  end
+  #def new
+  #  @kitten = Kitten.new
+  #end
 
-  def create
-    @kitten = Kitten.new(kitten_params)
-    if @kitten.save
-      # notify_changed_kittens(:created, @kitten)
-      flash[:notice] = 'Created new kitten'
-      redirect_to action: 'index'
-    else
-      flash[:error] = 'Cannot create new kitten'
-      render action: 'new'
-    end
-  end
+  #def create
+  #  @kitten = Kitten.new(kitten_params)
+  #  if @kitten.save
+  #    # notify_changed_kittens(:created, @kitten)
+  #    flash[:notice] = 'Created new kitten'
+  #    redirect_to action: 'index'
+  #  else
+  #    flash[:error] = 'Cannot create new kitten'
+  #    render action: 'new'
+  #  end
+  #end
 
-  private
+  #private
 
-  def kitten_params
-    params.require(:kitten).permit(:name)
-  end
+  #def kitten_params
+  #  params.require(:kitten).permit(:name)
+  #end
 
   # def notify_changed_kittens(action, changed_kitten)
   #   OpenProject::Notifications.send(:kittens_changed, action: action, kitten: changed_kitten)
