@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
   get '/my_plugin', to: 'my_plugin#index'
 
-  # KPI Dashboard routes
-  get '/kpi_dashboard', to: 'kpi_dashboard#index'
-  get '/kpi_dashboard/data', to: 'kpi_dashboard#data'
-  
   # Gamification routes
-  get '/gamification', to: 'gamification#index'
-  get '/gamification/:user_id', to: 'gamification#show'
+  scope 'gamification' do
+    get '/', to: 'gamification#index', as: 'gamification'
+    get 'profile/:id', to: 'gamification#show', as: 'gamification_profile'
+    get 'profile', to: 'gamification#show', as: 'my_gamification_profile'
+    get 'leaderboard', to: 'gamification#leaderboard', as: 'leaderboard'
+    get 'achievements', to: 'gamification#achievements', as: 'achievements'
+  end
+  
+  # KPI dashboard routes
+  scope 'kpi_dashboard' do
+    get '/', to: 'kpi_dashboard#index', as: 'kpi_dashboard'
+    get 'data', to: 'kpi_dashboard#data', as: 'kpi_dashboard_data'
+  end
 end
