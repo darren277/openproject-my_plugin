@@ -1,7 +1,68 @@
 en:
-  proto_plugin_name: Kitten plugin
-  label_kitten: Kitten
-  label_kittens: Kittens
-  label_kitten_new: New Kitten
-  label_kitten_edit: Edit Kitten
-  label_kitten_delete: Delete Kitten
+  # General plugin labels
+  label_my_plugin: "My Plugin"
+
+  # Gamification labels
+  label_gamification: "Gamification"
+  label_gamification_profile: "%{user}'s Profile"
+  label_gamification_leaderboard: "Leaderboard"
+  label_my_profile: "My Profile"
+  label_level_x: "Level %{level}"
+  label_level_progress: "%{current} / %{total} XP"
+  label_points: "points"
+  label_total_points: "Total Points"
+  label_period_points: "Period Points"
+  label_tasks_completed: "Tasks Completed"
+  label_story_points: "Story Points"
+  label_achievements: "Achievements"
+  label_recent_achievements: "Recent Achievements"
+  label_recent_activity: "Recent Activity"
+  label_top_performers: "Top Performers"
+  label_view_leaderboard: "View Full Leaderboard"
+  label_view_profile: "View Full Profile"
+  label_my_stats: "My Stats"
+  label_how_it_works: "How It Works"
+  label_complete_tasks: "Complete Tasks"
+  label_gain_levels: "Gain Levels"
+  label_unlock_achievements: "Unlock Achievements"
+  label_compete_leaderboard: "Compete on Leaderboard"
+  label_rank: "Rank"
+  label_user: "User"
+  label_level: "Level"
+  label_all_time: "All Time"
+  label_this_month: "This Month"
+  label_this_week: "This Week"
+  label_default_position: "Team Member"
+  label_no_data: "No data available"
+
+  # Achievement descriptions
+  achievement_task_master: "Task Master"
+  achievement_task_master_desc: "Complete 25 tasks"
+  achievement_bug_hunter: "Bug Hunter"
+  achievement_bug_hunter_desc: "Fix 10 bugs"
+  achievement_sprint_champion: "Sprint Champion"
+  achievement_sprint_champion_desc: "Complete all assigned tasks in a sprint"
+  achievement_quick_resolver: "Quick Resolver"
+  achievement_quick_resolver_desc: "Resolve 5 issues in a single day"
+  achievement_feature_master: "Feature Master"
+  achievement_feature_master_desc: "Successfully implement a major feature"
+  achievement_team_player: "Team Player"
+  achievement_team_player_desc: "Review 10 pull requests"
+  achievement_early_bird: "Early Bird"
+  achievement_early_bird_desc: "Complete a task before the deadline"
+  achievement_point_collector: "Point Collector"
+  achievement_point_collector_desc: "Earn 1000 points total"
+
+  # Explanatory texts
+  text_no_profile_yet: "You don't have a gamification profile yet."
+  text_complete_tasks_to_earn: "Complete tasks to start earning points and achievements!"
+  text_earn_points_by_completing: "Earn points by completing tasks and contributing to projects."
+  text_level_up_earn_ranks: "Level up as you earn points and unlock new ranks."
+  text_special_actions_achievements: "Perform special actions to unlock achievements and earn bonus points."
+  text_see_who_ranks_highest: "See who ranks highest in your organization and compete for the top spot."
+
+  # Error messages
+  error_user_not_found: "User not found."
+
+  # KPI Dashboard
+  label_kpi_dashboard: "KPI Dashboard"
