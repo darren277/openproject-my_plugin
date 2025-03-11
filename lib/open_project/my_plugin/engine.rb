@@ -16,7 +16,32 @@ module OpenProject::MyPlugin
       menu :top_menu,
            :my_plugin,
            { url: '/my_plugin' },  # Use URL instead of controller/action
-           caption: "My Plugin"
+           caption: "My Plugin",
+           after: :overview,
+           param: :project_id
+
+      # Project menu entry for KPI Dashboard
+      menu :project_menu,
+           :kpi_dashboard,
+           { controller: 'kpi_dashboard', action: 'index' },
+           caption: 'KPI Dashboard',
+           after: :overview,
+           param: :project_id
+           
+      # Top menu entry for Gamification
+      menu :top_menu,
+           :gamification,
+           { controller: 'gamification', action: 'index' },
+           caption: 'Gamification',
+           if: ->(*) { User.current.logged? }
+
+      # Add permissions
+      project_module :my_plugin do
+        permission :view_my_plugin, { my_plugin: [:index] }
+        permission :view_kpi_dashboard, { kpi_dashboard: [:index, :data] }
+        permission :view_gamification, { gamification: [:index, :show] }
+      end
+
     end
   end
 end
