@@ -1,0 +1,21 @@
+<% html_title t(:label_kpi_dashboard) %>
+
+<h1><%= t(:label_kpi_dashboard) %></h1>
+
+<div id="kpi-dashboard">
+  <!-- Your dashboard content will go here -->
+</div>
+
+<script>
+  // Simple JavaScript for now
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dashboard
+    fetch('<%= url_for(action: 'data') %>')
+      .then(response => response.json())
+      .then(data => {
+        // Render data in the dashboard
+        const dashboard = document.getElementById('kpi-dashboard');
+        // ...
+      });
+  });
+</script>
