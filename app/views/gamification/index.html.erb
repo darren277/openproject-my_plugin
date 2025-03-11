@@ -1,81 +1,167 @@
-<%# app/views/gamification/show.html.erb %>
-<% html_title t(:label_gamification_profile, user: @profile.user.name) %>
+<% html_title t(:label_gamification) %>
 
-<div class="profile-container">
-  <div class="profile-header">
-    <div class="avatar">
-      <%= @profile.user.firstname[0] %><%= @profile.user.lastname[0] %>
-    </div>
-    <div class="profile-info">
-      <div class="profile-name"><%= @profile.user.name %></div>
-      <div class="profile-title"><%= @profile.user.position || t(:label_default_position) %></div>
-      <div class="level-container">
-        <div class="level-badge"><%= @profile.level %></div>
-        <div class="level-info"><%= @profile.current_rank %></div>
+<div class="gamification-index-container">
+  <div class="toolbar-container">
+    <div class="toolbar">
+      <div class="title-container">
+        <h2><%= t(:label_gamification) %></h2>
       </div>
-      <div class="progress-container">
-        <% next_level_points = @profile.points_to_next_level %>
-        <% current_level_points = @profile.points_since_last_level %>
-        <% progress_percentage = (current_level_points.to_f / next_level_points) * 100 %>
-        
-        <div>
-          <%= t(:label_level_progress, 
-                current: current_level_points, 
-                total: next_level_points) %>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: <%= progress_percentage %>%;"></div>
-        </div>
-      </div>
+      
+      <ul class="toolbar-items">
+        <li class="toolbar-item">
+          <%= link_to t(:label_my_profile), gamification_path(id: User.current.id), class: 'button' %>
+        </li>
+        <li class="toolbar-item">
+          <%= link_to t(:label_leaderboard), leaderboard_path, class: 'button' %>
+        </li>
+        <li class="toolbar-item">
+          <%= link_to t(:label_achievements), achievements_path, class: 'button' %>
+        </li>
+      </ul>
     </div>
   </div>
   
-  <div class="stats-container">
-    <div class="stat-card">
-      <div class="stat-value"><%= @profile.tasks_completed %></div>
-      <div class="stat-label"><%= t(:label_tasks_completed) %></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value"><%= @profile.story_points_completed %></div>
-      <div class="stat-label"><%= t(:label_story_points) %></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value"><%= @profile.achievements.count %></div>
-      <div class="stat-label"><%= t(:label_achievements) %></div>
-    </div>
-  </div>
-  
-  <div class="achievements-container">
-    <div class="achievements-title"><%= t(:label_recent_achievements) %></div>
-    <div class="achievements-grid">
-      <% @profile.achievements.recent(4).each do |achievement| %>
-        <div class="achievement">
-          <div class="achievement-icon"><%= achievement.icon %></div>
-          <div class="achievement-name"><%= achievement.name %></div>
-          <div class="achievement-desc"><%= achievement.description %></div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  
-  <div class="recent-activity">
-    <div class="activity-title"><%= t(:label_recent_activity) %></div>
-    <ul class="activity-list">
-      <% @profile.activities.recent(5).each do |activity| %>
-        <li class="activity-item">
-          <div class="activity-icon"><%= activity.icon %></div>
-          <div class="activity-details">
-            <div class="activity-description">
-              <%= raw activity.description_html %>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="widget-box">
+        <h3 class="widget-title"><%= t(:label_top_performers) %></h3>
+        <div class="top-performers">
+          <% @top_achievers.each_with_index do |profile, index| %>
+            <div class="performer-card <%= index == 0 ? 'top-performer' : '' %>">
+              <div class="performer-rank"><%= index + 1 %></div>
+              <div class="performer-avatar">
+                <%= profile.user.firstname[0] %><%= profile.user.lastname[0] %>
+              </div>
+              <div class="performer-info">
+                <div class="performer-name">
+                  <%= link_to profile.user.name, gamification_path(id: profile.user.id) %>
+                </div>
+                <div class="performer-level">
+                  <%= t(:label_level_x, level: profile.level) %> • <%= profile.points %> <%= t(:label_points) %>
+                </div>
+              </div>
             </div>
-            <div class="activity-time">
-              <%= format_time_as_date(activity.created_at) %>
+          <% end %>
+          
+          <div class="view-all">
+            <%= link_to t(:label_view_leaderboard), leaderboard_path, class: 'button -highlight' %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="widget-box">
+        <h3 class="widget-title"><%= t(:label_recent_activity) %></h3>
+        <ul class="activity-list">
+          <% @recent_activities.each do |activity| %>
+            <li class="activity-item">
+              <div class="activity-icon"><%= activity.icon %></div>
+              <div class="activity-details">
+                <div class="activity-user">
+                  <%= link_to activity.gamification_profile.user.name, 
+                      gamification_path(id: activity.gamification_profile.user.id) %>
+                </div>
+                <div class="activity-description">
+                  <%= raw activity.description_html %>
+                </div>
+                <div class="activity-time">
+                  <%= format_time_as_date(activity.created_at) %>
+                </div>
+              </div>
+              <div class="activity-points">+<%= activity.points %> XP</div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="widget-box">
+        <h3 class="widget-title"><%= t(:label_my_stats) %></h3>
+        <% profile = GamificationProfile.find_by(user_id: User.current.id) %>
+        
+        <% if profile.present? %>
+          <div class="my-stats">
+            <div class="level-container">
+              <div class="level-badge"><%= profile.level %></div>
+              <div class="profile-info">
+                <div class="profile-name"><%= User.current.name %></div>
+                <div class="level-info"><%= profile.current_rank %></div>
+                <div class="progress-container">
+                  <% next_level_points = profile.points_to_next_level %>
+                  <% current_level_points = profile.points_since_last_level %>
+                  <% progress_percentage = (current_level_points.to_f / next_level_points) * 100 %>
+                  
+                  <div>
+                    <%= t(:label_level_progress, 
+                          current: current_level_points, 
+                          total: next_level_points) %>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: <%= progress_percentage %>%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value"><%= profile.points %></div>
+                <div class="stat-label"><%= t(:label_total_points) %></div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value"><%= profile.tasks_completed %></div>
+                <div class="stat-label"><%= t(:label_tasks_completed) %></div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value"><%= profile.achievements.count %></div>
+                <div class="stat-label"><%= t(:label_achievements) %></div>
+              </div>
+            </div>
+            
+            <%= link_to t(:label_view_profile), gamification_path(id: User.current.id), class: 'button -highlight -full' %>
+          </div>
+        <% else %>
+          <div class="no-profile">
+            <p><%= t(:text_no_profile_yet) %></p>
+            <p><%= t(:text_complete_tasks_to_earn) %></p>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="widget-box">
+        <h3 class="widget-title"><%= t(:label_how_it_works) %></h3>
+        <div class="how-it-works">
+          <div class="how-item">
+            <div class="how-icon">✅</div>
+            <div class="how-text">
+              <h4><%= t(:label_complete_tasks) %></h4>
+              <p><%= t(:text_earn_points_by_completing) %></p>
             </div>
           </div>
-          <div class="activity-points">+<%= activity.points %> XP</div>
-        </li>
-      <% end %>
-    </ul>
+          <div class="how-item">
+            <div class="how-icon">⬆️</div>
+            <div class="how-text">
+              <h4><%= t(:label_gain_levels) %></h4>
+              <p><%= t(:text_level_up_earn_ranks) %></p>
+            </div>
+          </div>
+          <div class="how-item">
+            <div class="how-icon">🏆</div>
+            <div class="how-text">
+              <h4><%= t(:label_unlock_achievements) %></h4>
+              <p><%= t(:text_special_actions_achievements) %></p>
+            </div>
+          </div>
+          <div class="how-item">
+            <div class="how-icon">🏅</div>
+            <div class="how-text">
+              <h4><%= t(:label_compete_leaderboard) %></h4>
+              <p><%= t(:text_see_who_ranks_highest) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
