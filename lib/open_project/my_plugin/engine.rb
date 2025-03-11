@@ -18,12 +18,5 @@ module OpenProject::MyPlugin
            { url: '/my_plugin' },  # Use URL instead of controller/action
            caption: "My Plugin"
     end
-
-    # Mount the engine
-    initializer 'my_plugin.register_routes' do
-      Rails.application.routes.draw do
-        mount OpenProject::MyPlugin::Engine, at: '/my_plugin'
-      end
-    end
   end
 end
