@@ -35,6 +35,13 @@ module OpenProject::MyPlugin
            caption: 'Gamification',
            if: ->(*) { User.current.logged? }
 
+      # Account menu
+      menu :account_menu,
+             :my_profile,
+             { controller: 'gamification', action: 'show' },
+             caption: 'My Gamification',
+             if: ->(*) { User.current.logged? }
+
       # Add permissions
       project_module :my_plugin do
         permission :view_my_plugin, { my_plugin: [:index] }
@@ -46,6 +53,22 @@ module OpenProject::MyPlugin
 
     config.to_prepare do
       WorkPackagesController.send(:include, WorkPackagesControllerPatch)
+    end
+
+    # Specify assets to precompile
+    initializer 'my_plugin.assets' do |app|
+      app.config.assets.precompile += %w(gamification.css)
+    end
+      
+    # Add view paths for controllers
+    initializer 'my_plugin.register_path' do |app|
+      view_paths = Array(app.config.paths['app/views'])
+      view_paths.unshift Engine.root.join('app', 'views')
+    end
+      
+    # Add plugin translations
+    initializer 'my_plugin.register_translations' do |app|
+      app.config.i18n.load_path += Dir[Engine.root.join('config', 'locales', '*.{rb,yml}')]
     end
   end
 end
