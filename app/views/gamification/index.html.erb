@@ -1,0 +1,84 @@
+<%# app/views/gamification/show.html.erb %>
+<% html_title t(:label_gamification_profile, user: @profile.user.name) %>
+
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="avatar">
+      <%= @profile.user.firstname[0] %><%= @profile.user.lastname[0] %>
+    </div>
+    <div class="profile-info">
+      <div class="profile-name"><%= @profile.user.name %></div>
+      <div class="profile-title"><%= @profile.user.position || t(:label_default_position) %></div>
+      <div class="level-container">
+        <div class="level-badge"><%= @profile.level %></div>
+        <div class="level-info"><%= @profile.current_rank %></div>
+      </div>
+      <div class="progress-container">
+        <% next_level_points = @profile.points_to_next_level %>
+        <% current_level_points = @profile.points_since_last_level %>
+        <% progress_percentage = (current_level_points.to_f / next_level_points) * 100 %>
+        
+        <div>
+          <%= t(:label_level_progress, 
+                current: current_level_points, 
+                total: next_level_points) %>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: <%= progress_percentage %>%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-value"><%= @profile.tasks_completed %></div>
+      <div class="stat-label"><%= t(:label_tasks_completed) %></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= @profile.story_points_completed %></div>
+      <div class="stat-label"><%= t(:label_story_points) %></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= @profile.achievements.count %></div>
+      <div class="stat-label"><%= t(:label_achievements) %></div>
+    </div>
+  </div>
+  
+  <div class="achievements-container">
+    <div class="achievements-title"><%= t(:label_recent_achievements) %></div>
+    <div class="achievements-grid">
+      <% @profile.achievements.recent(4).each do |achievement| %>
+        <div class="achievement">
+          <div class="achievement-icon"><%= achievement.icon %></div>
+          <div class="achievement-name"><%= achievement.name %></div>
+          <div class="achievement-desc"><%= achievement.description %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="recent-activity">
+    <div class="activity-title"><%= t(:label_recent_activity) %></div>
+    <ul class="activity-list">
+      <% @profile.activities.recent(5).each do |activity| %>
+        <li class="activity-item">
+          <div class="activity-icon"><%= activity.icon %></div>
+          <div class="activity-details">
+            <div class="activity-description">
+              <%= raw activity.description_html %>
+            </div>
+            <div class="activity-time">
+              <%= format_time_as_date(activity.created_at) %>
+            </div>
+          </div>
+          <div class="activity-points">+<%= activity.points %> XP</div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'gamification', plugin: 'my_plugin' %>
+<% end %>
