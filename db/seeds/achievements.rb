@@ -178,4 +178,6 @@ begin
 
 rescue => e
   puts "Error seeding achievements: #{e.message}"
+  puts "Backtrace:"
+  puts e.backtrace.join("\n")
 end
