@@ -28,11 +28,11 @@ module OpenProject::MyPlugin
            if: ->(*) { User.current.logged? }
 
       # Account menu
-      menu :account_menu,
-             :my_profile,
-             { controller: 'gamification', action: 'show' },
-             caption: 'My Gamification',
-             if: ->(*) { User.current.logged? }
+      #menu :account_menu,
+      #       :my_profile,
+      #       { controller: 'gamification', action: 'show' },
+      #       caption: 'My Gamification',
+      #       if: ->(*) { User.current.logged? }
 
       # Add permissions
       project_module :my_plugin do
