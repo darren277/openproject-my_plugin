@@ -12,7 +12,7 @@ begin
       criteria: {
         type: 'tasks_completed',
         count: 25
-      }
+      }.to_json
     )
     
     Achievement.create!(
@@ -23,7 +23,7 @@ begin
       criteria: {
         type: 'tasks_completed',
         count: 100
-      }
+      }.to_json
     )
     
     # Story point achievements
@@ -35,7 +35,7 @@ begin
       criteria: {
         type: 'story_points',
         count: 100
-      }
+      }.to_json
     )
     
     Achievement.create!(
@@ -46,7 +46,7 @@ begin
       criteria: {
         type: 'story_points',
         count: 500
-      }
+      }.to_json
     )
     
     # Sprint-related achievements
@@ -58,7 +58,7 @@ begin
       criteria: {
         type: 'sprint_completed',
         count: 1
-      }
+      }.to_json
     )
     
     # Quick resolver achievement
@@ -70,7 +70,7 @@ begin
       criteria: {
         type: 'quick_resolver',
         count: 5
-      }
+      }.to_json
     )
     
     # Bug hunter achievements
@@ -82,7 +82,7 @@ begin
       criteria: {
         type: 'bug_fixed',
         count: 10
-      }
+      }.to_json
     )
     
     # Feature implementation achievements
@@ -94,7 +94,7 @@ begin
       criteria: {
         type: 'feature_implemented',
         count: 1
-      }
+      }.to_json
     )
     
     # Team collaboration achievements
@@ -106,7 +106,7 @@ begin
       criteria: {
         type: 'reviews_completed',
         count: 10
-      }
+      }.to_json
     )
     
     Achievement.create!(
@@ -117,7 +117,7 @@ begin
       criteria: {
         type: 'helped_others',
         count: 5
-      }
+      }.to_json
     )
     
     # Time-based achievements
@@ -129,7 +129,7 @@ begin
       criteria: {
         type: 'early_completion',
         count: 1
-      }
+      }.to_json
     )
     
     Achievement.create!(
@@ -140,7 +140,7 @@ begin
       criteria: {
         type: 'consecutive_days',
         count: 5
-      }
+      }.to_json
     )
     
     # Special achievements
@@ -152,7 +152,7 @@ begin
       criteria: {
         type: 'tasks_completed',
         count: 1
-      }
+      }.to_json
     )
     
     Achievement.create!(
@@ -163,7 +163,7 @@ begin
       criteria: {
         type: 'milestone_completed',
         count: 1
-      }
+      }.to_json
     )
     
     puts "Created #{Achievement.count} achievements"
