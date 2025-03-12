@@ -36,7 +36,6 @@ module OpenProject::MyPlugin
 
       # Add permissions
       project_module :my_plugin do
-        permission :view_my_plugin, { my_plugin: [:index] }, permissible_on: :project
         permission :view_kpi_dashboard, { kpi_dashboard: [:index, :data] }, permissible_on: :project
         permission :view_gamification, { gamification: [:index, :show] }, permissible_on: :project
       end
