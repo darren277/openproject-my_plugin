@@ -57,18 +57,18 @@ module OpenProject::MyPlugin
     end
 
     # Specify assets to precompile
-    initializer 'my_plugin.assets' do |app|
+    initializer 'openproject_my_plugin.assets' do |app|
       app.config.assets.precompile += %w(gamification.css)
     end
       
     # Add view paths for controllers
-    initializer 'my_plugin.register_path' do |app|
+    initializer 'openproject_my_plugin.register_path' do |app|
       view_paths = Array(app.config.paths['app/views'])
       view_paths.unshift Engine.root.join('app', 'views')
     end
       
     # Add plugin translations
-    initializer 'my_plugin.register_translations' do |app|
+    initializer 'openproject_my_plugin.register_translations' do |app|
       app.config.i18n.load_path += Dir[Engine.root.join('config', 'locales', '*.{rb,yml}')]
     end
   end
