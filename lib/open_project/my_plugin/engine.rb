@@ -15,25 +15,18 @@ module OpenProject::MyPlugin
       # Project menu entry for KPI Dashboard
       menu :project_menu,
            :kpi_dashboard,
-           { controller: 'kpi_dashboard', action: 'index' },
+           { controller: '/kpi_dashboard', action: 'index' },
            caption: 'KPI Dashboard',
-           after: :overview,
+           #after: :overview,
            param: :project_id
            
       # Top menu entry for Gamification
       menu :top_menu,
            :gamification,
-           { controller: 'gamification', action: 'index' },
+           { controller: '/gamification', action: 'index' },
            caption: 'Gamification',
            if: ->(*) { User.current.logged? }
-
-      # Account menu
-      #menu :account_menu,
-      #       :my_profile,
-      #       { controller: 'gamification', action: 'show' },
-      #       caption: 'My Gamification',
-      #       if: ->(*) { User.current.logged? }
-
+      
       # Add permissions
       project_module :my_plugin do
         permission :view_kpi_dashboard, { kpi_dashboard: [:index, :data] }, permissible_on: :project
