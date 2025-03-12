@@ -7,7 +7,7 @@ class Achievement < ApplicationRecord
   validates :icon, presence: true
   validates :points, numericality: { only_integer: true, greater_than: 0 }
   
-  serialize :criteria, Hash
+  serialize :criteria, coder: JSON
   
   def criteria_met?(profile)
     case criteria['type']
