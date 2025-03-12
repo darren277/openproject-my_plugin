@@ -12,13 +12,6 @@ module OpenProject::MyPlugin
       author_url: 'https://github.com/darren277',
       requires_openproject: '>= 13.1.0'
     ) do
-      # Add a simple menu item to the top menu
-      menu :top_menu,
-           :my_plugin,
-           { url: '/my_plugin' },  # Use URL instead of controller/action
-           caption: "My Plugin",
-           after: :overview
-
       # Project menu entry for KPI Dashboard
       menu :project_menu,
            :kpi_dashboard,
