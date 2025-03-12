@@ -48,7 +48,7 @@ This plugin requires:
 
 3. Run the plugin migrations:
    ```bash
-   bundle exec rake my_plugin:install:migrations
+   bundle exec rake railties:install:migrations FROM=my_plugin
    ```
 
 4. Seed the initial achievements:
