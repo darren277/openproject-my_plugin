@@ -1,8 +1,7 @@
-# db/seeds/achievements.rb
-
-# Only seed if no achievements exist yet
-if Achievement.count == 0
-  puts "Creating default achievements..."
+begin
+  # Only seed if no achievements exist yet (or if the table exists)
+  if ActiveRecord::Base.connection.table_exists?(:achievements) && Achievement.count == 0
+    puts "Creating default achievements..."
   
   # Task completion achievements
   Achievement.create!(
@@ -168,4 +167,15 @@ if Achievement.count == 0
   )
   
   puts "Created #{Achievement.count} achievements"
+
+  else
+    if !ActiveRecord::Base.connection.table_exists?(:achievements)
+      puts "Achievements table doesn't exist yet. Run migrations first."
+    else
+      puts "Achievements already exist, skipping seed."
+    end
+  end
+
+rescue => e
+  puts "Error seeding achievements: #{e.message}"
 end

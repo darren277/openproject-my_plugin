@@ -49,6 +49,8 @@ This plugin requires:
 3. Run the plugin migrations:
    ```bash
    bundle exec rake railties:install:migrations FROM=openproject_my_plugin
+   # The above command copies the migration files over...
+   bundle exec rake db:migrate
    ```
 
 4. Seed the initial achievements:
