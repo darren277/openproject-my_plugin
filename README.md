@@ -63,7 +63,10 @@ This plugin requires:
 5. Bundle plugin assets:
    ```bash
    # From the main OpenProject directory
-   bundle exec rake openproject_my_plugin:precompile_assets
+   # Instead of this: `bundle exec rake openproject_my_plugin:precompile_assets`
+   # ...copying the two CSS files over manually for now because the precompilation process takes ridiculously long amounts of time for some reason.
+   sudo cp ~/op_dev/plugins/openproject-my_plugin/app/assets/stylesheets/gamification.css ~/op_dev/openproject/public/assets/frontend/
+   sudo cp ~/op_dev/plugins/openproject-my_plugin/app/assets/stylesheets/kpi_dashboard.css ~/op_dev/openproject/public/assets/frontend/
    ```
 
 6. Restart your OpenProject server
