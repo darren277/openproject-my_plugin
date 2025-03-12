@@ -48,7 +48,7 @@ This plugin requires:
 
 3. Run the plugin migrations:
    ```bash
-   bundle exec rake db:migrate:plugins SCOPE=my_plugin
+   bundle exec rake my_plugin:install:migrations
    ```
 
 4. Seed the initial achievements:
