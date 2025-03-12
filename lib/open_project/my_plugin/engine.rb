@@ -17,8 +17,7 @@ module OpenProject::MyPlugin
            :my_plugin,
            { url: '/my_plugin' },  # Use URL instead of controller/action
            caption: "My Plugin",
-           after: :overview,
-           param: :project_id
+           after: :overview
 
       # Project menu entry for KPI Dashboard
       menu :project_menu,
