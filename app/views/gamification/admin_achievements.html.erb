@@ -1,0 +1,82 @@
+<% html_title t(:label_achievements_admin) %>
+
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2><%= t(:label_achievements_admin) %></h2>
+    </div>
+    
+    <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <%= link_to t(:button_add_achievement), '#', class: 'button -alt-highlight' %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t(:label_name) %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t(:label_description) %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t(:label_icon) %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t(:label_points) %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t(:label_criteria) %>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @achievements.each do |achievement| %>
+          <tr>
+            <td><%= achievement.name %></td>
+            <td><%= achievement.description %></td>
+            <td><%= achievement.icon %></td>
+            <td><%= achievement.points %></td>
+            <td>
+              <% criteria_hash = achievement.criteria.is_a?(String) ? JSON.parse(achievement.criteria) : achievement.criteria %>
+              <%= "#{criteria_hash['type']} (#{criteria_hash['count']})" %>
+            </td>
+            <td class="buttons">
+              <%= link_to t(:button_edit), '#', class: 'icon icon-edit' %>
+              <%= link_to t(:button_delete), '#', 
+                  class: 'icon icon-delete',
+                  data: { confirm: t(:text_are_you_sure) } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
