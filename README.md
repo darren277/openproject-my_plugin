@@ -48,21 +48,25 @@ This plugin requires:
 
 3. Run the plugin migrations:
    ```bash
-   bundle exec rake railties:install:migrations FROM=my_plugin
+   bundle exec rake railties:install:migrations FROM=openproject_my_plugin
    ```
 
 4. Seed the initial achievements:
    ```bash
-   bundle exec rake my_plugin:seed
+   bundle exec rake openproject_my_plugin:seed
    ```
 
 5. Bundle plugin assets:
    ```bash
    # From the main OpenProject directory
-   bundle exec rake my_plugin:precompile_assets
+   bundle exec rake openproject_my_plugin:precompile_assets
    ```
 
 6. Restart your OpenProject server
+
+### Troubleshooting
+
+If you need to verify the plugin is installed, or to make sure you're calling it my the right name: `bundle exec rails runner "puts Redmine::Plugin.all.map(&:id)"`.
 
 ## Usage
 
