@@ -1,7 +1,8 @@
 class GamificationController < ApplicationController
   layout 'base'
   
-  before_action :require_login
+  #before_action :require_login
+  no_authorization_required! :index, :show, :leaderboard, :achievements
   
   def index
     @profiles = GamificationProfile.includes(:user)
