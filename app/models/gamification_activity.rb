@@ -6,7 +6,7 @@ class GamificationActivity < ApplicationRecord
   validates :description, presence: true
   validates :points, numericality: { only_integer: true }
   
-  serialize :metadata, Hash
+  serialize :metadata, coder: JSON
   
   # Activity types
   TYPES = %w[
