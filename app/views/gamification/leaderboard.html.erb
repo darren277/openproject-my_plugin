@@ -1,0 +1,95 @@
+<% html_title t(:label_gamification_leaderboard) %>
+
+<div class="leaderboard-container">
+  <div class="toolbar-container">
+    <div class="toolbar">
+      <div class="title-container">
+        <h2><%= t(:label_gamification_leaderboard) %></h2>
+      </div>
+      
+      <ul class="toolbar-items">
+        <li class="toolbar-item">
+          <%= link_to t(:label_my_profile), gamification_path(id: User.current.id), class: 'button' %>
+        </li>
+        <li class="toolbar-item">
+          <%= link_to t(:label_achievements), achievements_path, class: 'button' %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="leaderboard-tabs">
+    <%= link_to t(:label_all_time), leaderboard_path(period: 'all_time'), 
+        class: "leaderboard-tab #{@period == 'all_time' ? 'active' : ''}" %>
+    <%= link_to t(:label_this_month), leaderboard_path(period: 'monthly'), 
+        class: "leaderboard-tab #{@period == 'monthly' ? 'active' : ''}" %>
+    <%= link_to t(:label_this_week), leaderboard_path(period: 'weekly'), 
+        class: "leaderboard-tab #{@period == 'weekly' ? 'active' : ''}" %>
+  </div>
+  
+  <table class="leaderboard-table">
+    <thead>
+      <tr>
+        <th><%= t(:label_rank) %></th>
+        <th><%= t(:label_user) %></th>
+        <th><%= t(:label_level) %></th>
+        <th>
+          <% if @period == 'all_time' %>
+            <%= t(:label_total_points) %>
+          <% else %>
+            <%= t(:label_period_points) %>
+          <% end %>
+        </th>
+        <th><%= t(:label_achievements) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @profiles.each_with_index do |profile, index| %>
+        <tr>
+          <td class="leaderboard-rank rank-<%= index + 1 %>"><%= index + 1 %></td>
+          <td>
+            <div class="leaderboard-user">
+              <div class="leaderboard-avatar">
+                <%= profile.user.firstname[0] %><%= profile.user.lastname[0] %>
+              </div>
+              <div>
+                <div class="leaderboard-name">
+                  <%= link_to profile.user.name, gamification_path(id: profile.user.id) %>
+                </div>
+                <div class="leaderboard-title">
+                  <%= profile.user.position || t(:label_default_position) %>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="leaderboard-level">
+            <div class="level-badge-small"><%= profile.level %></div>
+            <%= profile.current_rank %>
+          </td>
+          <td class="leaderboard-points">
+            <% if @period == 'all_time' %>
+              <%= profile.points %>
+            <% else %>
+              <%= profile.period_points %>
+            <% end %>
+          </td>
+          <td class="leaderboard-achievements">
+            <%= profile.achievements.count %>
+          </td>
+        </tr>
+      <% end %>
+      
+      <% if @profiles.empty? %>
+        <tr>
+          <td colspan="5" class="no-data">
+            <%= t(:label_no_data) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'gamification', plugin: 'my_plugin' %>
+<% end %>
