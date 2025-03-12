@@ -56,6 +56,10 @@ module OpenProject::MyPlugin
       WorkPackage.send(:include, WorkPackagePatch)
     end
 
+    initializer 'openproject_my_plugin.register_seed' do
+      OpenProject::Plugins::LoadPathHelper.register_seedfu_fixtures(self)
+    end
+
     # Specify assets to precompile
     initializer 'openproject_my_plugin.assets' do |app|
       app.config.assets.precompile += %w(gamification.css)
