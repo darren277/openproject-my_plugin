@@ -37,7 +37,7 @@ This plugin requires:
 1. Clone the repository into the plugins directory:
    ```bash
    cd openproject/plugins
-   git clone https://github.com/yourusername/openproject-my_plugin.git
+   git clone https://github.com/darren277/openproject-my_plugin.git
    ```
 
 2. Install the plugin:
@@ -56,7 +56,13 @@ This plugin requires:
    bundle exec rake my_plugin:seed
    ```
 
-5. Restart your OpenProject server
+5. Bundle plugin assets:
+   ```bash
+   # From the main OpenProject directory
+   bundle exec rake my_plugin:precompile_assets
+   ```
+
+6. Restart your OpenProject server
 
 ## Usage
 
