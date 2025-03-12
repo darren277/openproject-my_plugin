@@ -52,7 +52,8 @@ module OpenProject::MyPlugin
     end
 
     config.to_prepare do
-      WorkPackagesController.send(:include, WorkPackagesControllerPatch)
+      #WorkPackagesController.send(:include, WorkPackagesControllerPatch)
+      WorkPackage.send(:include, WorkPackagePatch)
     end
 
     # Specify assets to precompile

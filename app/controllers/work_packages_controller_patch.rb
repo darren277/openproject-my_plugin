@@ -1,39 +1,19 @@
-# This patch hooks into the WorkPackagesController to add gamification points
 module WorkPackagesControllerPatch
   def self.included(base)
     base.class_eval do
-      # Store the original method in a variable
-      alias_method :original_update, :update
-      alias_method :original_create, :create
+      # Instead of overriding update method which doesn't exist,
+      # hook into methods that do exist
+
+      # For example, if you want to track when work packages are viewed
+      alias_method :original_show, :show
       
-      # Override the update method
-      def update
-        # Get the work package before update
-        @work_package_before = WorkPackage.find(params[:id])
-        original_status = @work_package_before.status_id
+      def show
+        # Call the original method
+        result = original_show
         
-        # Call the original update method
-        result = original_update
-        
-        # If update was successful and status changed to closed
-        if result && @work_package.present? && @work_package.persisted?
-          if original_status != @work_package.status_id && @work_package.closed?
-            award_points_for_completion(@work_package)
-          end
-        end
-        
-        result
-      end
-      
-      # Override the create method
-      def create
-        # Call the original create method
-        result = original_create
-        
-        # If creation was successful
-        if result && @work_package.present? && @work_package.persisted?
-          # Award points for creating a task
-          award_points_for_creation(@work_package)
+        # Add your gamification logic after a work package is viewed
+        if work_package.present? && User.current.logged?
+          add_view_points(work_package)
         end
         
         result
@@ -41,49 +21,25 @@ module WorkPackagesControllerPatch
       
       private
       
-      def award_points_for_completion(work_package)
-        user = User.current
-        profile = GamificationProfile.find_by(user_id: user.id)
+      def add_view_points(work_package)
+        # Find or create the user's gamification profile
+        profile = GamificationProfile.find_by(user_id: User.current.id)
         
-        # Create profile if it doesn't exist
         if profile.nil?
-          profile = GamificationProfile.create!(user: user, points: 0, level: 1)
+          profile = GamificationProfile.create!(user: User.current, points: 0, level: 1)
         end
         
-        # Points based on estimated hours or story points
-        points = if work_package.story_points.present? && work_package.story_points > 0
-                  work_package.story_points * 5  # 5 points per story point
-                elsif work_package.estimated_hours.present? && work_package.estimated_hours > 0
-                  work_package.estimated_hours.to_i * 2  # 2 points per estimated hour
-                else
-                  10  # Default points
-                end
-        
-        # Add points and record the activity
+        # You might want to add fewer points for just viewing
+        # or implement logic to prevent farming points by repeated viewing
         profile.add_points(
-          points,
-          'task_completed',
-          "Completed work package: #{work_package.subject}",
+          1,  # Just 1 point for viewing
+          'work_package_viewed',
+          "Viewed work package: #{work_package.subject}",
           work_package
         )
-      end
-      
-      def award_points_for_creation(work_package)
-        user = User.current
-        profile = GamificationProfile.find_by(user_id: user.id)
-        
-        # Create profile if it doesn't exist
-        if profile.nil?
-          profile = GamificationProfile.create!(user: user, points: 0, level: 1)
-        end
-        
-        # Add points for task creation
-        profile.add_points(
-          3,  # Fixed points for creating a task
-          'task_created',
-          "Created work package: #{work_package.subject}",
-          work_package
-        )
+      rescue => e
+        # Log error but don't interrupt the user's experience
+        Rails.logger.error "Error awarding gamification points: #{e.message}"
       end
     end
   end
