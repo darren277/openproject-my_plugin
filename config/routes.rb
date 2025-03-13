@@ -19,10 +19,6 @@ Rails.application.routes.draw do
   end
 
   # KPI dashboard routes - project context only
-  scope 'projects/:project_id', as: 'project' do
-    scope 'kpi_dashboard' do
-      get '/', to: 'kpi_dashboard#index', as: 'kpi_dashboard'
-      get 'data', to: 'kpi_dashboard#data', as: 'kpi_dashboard_data'
-    end
-  end
+  get '/projects/:project_id/kpi_dashboard', to: 'kpi_dashboard#index', as: 'project_kpi_dashboard'
+  get '/projects/:project_id/kpi_dashboard/data', to: 'kpi_dashboard#data', as: 'project_kpi_dashboard_data'
 end
