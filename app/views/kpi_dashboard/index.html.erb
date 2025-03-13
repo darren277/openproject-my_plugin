@@ -156,7 +156,9 @@
     document.getElementById('avg-completion-time').textContent = '...';
     
     // Fetch data from the server
-    fetch('<%= kpi_dashboard_data_path %>' + '?days=' + timePeriod)
+    <%# fetch('<%= kpi_dashboard_data_path %>' + '?days=' + timePeriod) %>
+    <%# //fetch('<%= openproject_my_plugin.project_kpi_dashboard_data_path(project_id: @project.identifier) %>') %>
+    fetch('/projects/<%= @project.identifier %>/kpi_dashboard/data')
       .then(response => response.json())
       .then(data => {
         // Update summary cards
